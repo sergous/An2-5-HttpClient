@@ -40,12 +40,11 @@ export class TaskFormComponent implements OnInit {
     const task = { ...this.task };
 
     if (task.id) {
-      this.taskArrayService.updateTask(task);
+      this.taskPromiseService.updateTask(task).then(() => this.goBack());
     } else {
       this.taskArrayService.addTask(task);
+      this.goBack();
     }
-
-    this.goBack();
   }
 
   goBack(): void {

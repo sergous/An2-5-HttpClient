@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Task } from '../models/task.model';
 
 @Injectable()
@@ -20,6 +20,20 @@ export class TaskPromiseService {
     const url = `${this.tasksUrl}/${id}`;
     return this.http
       .get(url)
+      .toPromise()
+      .then(response => <Task>response)
+      .catch(this.handleError);
+  }
+
+  updateTask(task: Task): Promise<Task> {
+    const url = `${this.tasksUrl}/${task.id}`,
+      body = JSON.stringify(task),
+      options = {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      };
+
+    return this.http
+      .put(url, body, options)
       .toPromise()
       .then(response => <Task>response)
       .catch(this.handleError);
