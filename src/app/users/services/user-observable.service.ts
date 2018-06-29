@@ -18,7 +18,11 @@ export class UserObservableService {
       .pipe(catchError(this.handleError));
   }
 
-  getUser(id: number) {}
+  getUser(id: number): Observable<User> {
+    const url = `${this.usersUrl}/${id}`;
+
+    return this.http.get<User>(url).pipe(catchError(this.handleError));
+  }
   updateUser(user: User) {}
   createUser(user: User) {}
   deleteUser(user: User) {}
