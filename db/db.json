@@ -1,20 +1,6 @@
 {
   "tasks": [
     {
-      "id": 1,
-      "action": "Estimate",
-      "priority": 1,
-      "estHours": 8,
-      "done": true
-    },
-    {
-      "id": 2,
-      "action": "Create",
-      "priority": 2,
-      "estHours": 8,
-      "done": true
-    },
-    {
       "id": 3,
       "action": "Edit",
       "priority": 3,
