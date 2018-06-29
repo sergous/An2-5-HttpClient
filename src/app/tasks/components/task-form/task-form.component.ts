@@ -6,20 +6,21 @@ import { Location } from '@angular/common';
 import { switchMap } from 'rxjs/operators';
 
 import { Task } from './../../models/task.model';
-import { TaskArrayService } from './../../services/task-array.service';
+import { TaskArrayService, TaskPromiseService } from './../../services';
 
 @Component({
   templateUrl: './task-form.component.html',
-  styleUrls: ['./task-form.component.css']
+  styleUrls: ['./task-form.component.css'],
 })
 export class TaskFormComponent implements OnInit {
   task: Task;
 
   constructor(
     private taskArrayService: TaskArrayService,
+    private taskPromiseService: TaskPromiseService,
     private location: Location,
     private route: ActivatedRoute
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.task = new Task(null, '', null, null);
@@ -28,11 +29,11 @@ export class TaskFormComponent implements OnInit {
     // it handles automatically
     this.route.paramMap
       .pipe(
-        switchMap((params: Params) => this.taskArrayService.getTask(+params.get('taskID'))))
-      .subscribe(
-        task => this.task = {...task},
-        err => console.log(err)
-    );
+        switchMap((params: Params) =>
+          this.taskPromiseService.getTask(+params.get('taskID'))
+        )
+      )
+      .subscribe(task => (this.task = { ...task }), err => console.log(err));
   }
 
   onSaveTask() {
