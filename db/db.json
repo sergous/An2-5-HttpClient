@@ -38,6 +38,12 @@
       "action": "Deploy",
       "priority": 2,
       "estHours": 8
+    },
+    {
+      "action": "Test",
+      "priority": 1,
+      "estHours": 10,
+      "id": 7
     }
   ],
   "users": [

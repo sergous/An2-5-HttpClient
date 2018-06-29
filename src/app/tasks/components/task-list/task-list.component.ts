@@ -46,4 +46,9 @@ export class TaskListComponent implements OnInit {
       }
     }
   }
+
+  onCreateTask() {
+    const link = ['/add'];
+    this.router.navigate(link);
+  }
 }

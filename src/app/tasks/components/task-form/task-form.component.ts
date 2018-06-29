@@ -6,7 +6,7 @@ import { Location } from '@angular/common';
 import { switchMap } from 'rxjs/operators';
 
 import { Task } from './../../models/task.model';
-import { TaskArrayService, TaskPromiseService } from './../../services';
+import { TaskPromiseService } from './../../services';
 
 @Component({
   templateUrl: './task-form.component.html',
@@ -16,7 +16,6 @@ export class TaskFormComponent implements OnInit {
   task: Task;
 
   constructor(
-    private taskArrayService: TaskArrayService,
     private taskPromiseService: TaskPromiseService,
     private location: Location,
     private route: ActivatedRoute
@@ -25,13 +24,13 @@ export class TaskFormComponent implements OnInit {
   ngOnInit(): void {
     this.task = new Task(null, '', null, null);
 
-    // it is not necessary to save subscription to route.paramMap
-    // it handles automatically
     this.route.paramMap
       .pipe(
-        switchMap((params: Params) =>
-          this.taskPromiseService.getTask(+params.get('taskID'))
-        )
+        switchMap((params: Params) => {
+          return params.get('taskID')
+            ? this.taskPromiseService.getTask(+params.get('taskID'))
+            : Promise.resolve(null);
+        })
       )
       .subscribe(task => (this.task = { ...task }), err => console.log(err));
   }
@@ -39,12 +38,10 @@ export class TaskFormComponent implements OnInit {
   onSaveTask() {
     const task = { ...this.task };
 
-    if (task.id) {
-      this.taskPromiseService.updateTask(task).then(() => this.goBack());
-    } else {
-      this.taskArrayService.addTask(task);
-      this.goBack();
-    }
+    const method = task.id ? 'updateTask' : 'createTask';
+    this.taskPromiseService[method](task)
+      .then(() => this.goBack())
+      .catch(err => console.log(err));
   }
 
   goBack(): void {
