@@ -23,8 +23,19 @@ export class UserObservableService {
 
     return this.http.get<User>(url).pipe(catchError(this.handleError));
   }
-  updateUser(user: User) {}
-  createUser(user: User) {}
+  updateUser(user: User): Observable<User> {
+    const url = `${this.usersUrl}/${user.id}`,
+      body = JSON.stringify(user);
+
+    return this.http.put<User>(url, body).pipe(catchError(this.handleError));
+  }
+  createUser(user: User): Observable<User> {
+    const body = JSON.stringify(user);
+
+    return this.http
+      .post<User>(this.usersUrl, body)
+      .pipe(catchError(this.handleError));
+  }
   deleteUser(user: User) {}
 
   handleError(err: HttpErrorResponse) {

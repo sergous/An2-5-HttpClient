@@ -1,5 +1,6 @@
 {
-  "tasks": [{
+  "tasks": [
+    {
       "id": 3,
       "action": "Edit",
       "priority": 3,
@@ -31,7 +32,8 @@
       "id": 7
     }
   ],
-  "users": [{
+  "users": [
+    {
       "id": 1,
       "firstName": "Anna",
       "lastName": "Borisova"
@@ -60,6 +62,12 @@
       "id": 6,
       "firstName": "Hunna",
       "lastName": "Jackson"
+    },
+    {
+      "id": 7
+    },
+    {
+      "id": 8
     }
   ]
 }
